@@ -2,7 +2,7 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 
 module.exports = async (req, res) => {
-  const url = "https://jogueiros.com/teams/0011051d-da39-4677-8f6b-62c448028ecd";
+  const url = "https://jogueiros.com/teams/b9398512-3d03-44e1-b463-a5168f6f933c";
 
   try {
     const { data } = await axios.get(url);
