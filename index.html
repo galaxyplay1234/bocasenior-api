@@ -443,7 +443,7 @@
       const targetDiv = tipo === "ultimos" ? ultimosDiv : proximosDiv;
       targetDiv.innerHTML = `<p style="text-align:center;">Carregando ${tipo === "ultimos" ? 'últimos' : 'próximos'} jogos...</p>`;
 
-      fetch("https://canalhas-api.vercel.app/api/agenda")
+      fetch("https://bocasenior-api.vercel.app/api/agenda")
         .then(res => res.json())
         .then(data => {
           const jogos = data[tipo];
@@ -486,7 +486,7 @@
     function carregarArtilheiros() {
   artilheirosDiv.innerHTML = `<p style="text-align:center;">Carregando artilheiros...</p>`;
 
-  fetch("https://canalhas-api.vercel.app/api/agenda")
+  fetch("https://bocasenior-api.vercel.app/api/agenda")
     .then(res => res.json())
     .then(data => {
       const lista = data.artilheiros;
@@ -576,7 +576,7 @@
     carregarDesempenho();
     
     function carregarDesempenho() {
-  fetch("https://canalhas-api.vercel.app/api/agenda")
+  fetch("https://bocasenior-api.vercel.app/api/agenda")
     .then(res => res.json())
     .then(data => {
       const desempenho = data.desempenho || [];
