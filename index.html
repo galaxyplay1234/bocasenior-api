@@ -459,7 +459,7 @@
     }
 
     function carregarProximoDestaque() {
-      fetch("https://canalhas-api.vercel.app/api/agenda")
+      fetch("https://bocasenior-api.vercel.app/api/agenda")
         .then(res => res.json())
         .then(data => {
           const jogo = (data.proximos || [])[0];
