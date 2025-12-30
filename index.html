@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://jogueiros.com/_next/image?url=https%3A%2F%2Fd1zz32ev1utzz6.cloudfront.net%2FeyJidWNrZXQiOiJqb2d1ZWlyb3MtZmMtdXBsb2FkcyIsImtleSI6InRpbWUvNjFmNGM1ODUzNGY2YWQwMDE4MWNhODY1LzE2NDQxOTg0NzU0MjYuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo4MCwiaGVpZ2h0Ijo4MCwiZml0IjoiY292ZXIifX19&w=256&q=75">
+  <title>Boca Sênior - Agenda</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #f3f3f3;
+      margin: 0;
+      padding: 0;
+    }
+
+    .logo-container {
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 12px;
+}
+
+.logo-container img.logo {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin-bottom: 8px;
+  object-fit: cover;
+}
+
+.logo-container h1 {
+  margin: 0;
+  font-size: 20px;
+  color: #222;
+  font-family: 'Arial', sans-serif;
+}
+
+.bolinhas-container {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 5px;
+}
+
+.bolinha {
+  width: 18px;
+  height: 18px;
+  border-radius: 20%;
+  font-size: 11px;
+  font-weight: bold;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bolinha.V {
+  background-color: #4CAF50; /* verde */
+}
+
+.bolinha.D {
+  background-color: #f44336; /* vermelho */
+}
+
+.bolinha.E {
+  background-color: #9e9e9e; /* cinza */
+}
+
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      background: #ffffff;
+      padding: 10px;
+      gap: 10px;
+    }
+
+    .tab-btn {
+      font-size: 17px;
+      padding: 10px 18px;
+      border-radius: 25px;
+      border: none;
+      background: #e0e0e0;
+      color: #333;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .tab-btn.active {
+      background: #8b5e3c;
+      color: #fff;
+    }
+
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      padding: 15px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Nova classe para esconder sem perder o gap */
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      width: 100%;
+      height: auto;
+      transition: opacity 0.3s ease;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px 10px 5px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .info {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 5px;
+    }
+
+    .escudos {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 15px;
+      margin: 10px 0 5px;
+    }
+
+    .escudo-time {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      padding: 0;
+    }
+
+    .escudo-time img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      margin-bottom: 6px;
+    }
+
+    .escudo-time span {
+      font-size: 13px;
+      color: #333;
+      text-align: center;
+      line-height: 1.2;
+      word-break: break-word;
+      margin-bottom: 0px;
+    }
+
+    .vs {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      font-size: 25px;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      line-height: 48px;
+      min-width: 87px;
+    }
+
+    .highlight-wrapper {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin: 0 auto 15px;
+      max-width: 600px;
+      padding: 0;
+      width: calc(100% - 30px);
+    }
+
+    .highlight-header {
+      background: #8b5e3c;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      padding: 8px;
+      font-size: 16px;
+    }
+
+    .highlight-card {
+      background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgUQ6Sms-9SmuY0zlHcFZnbN1DACsfxrs3gQ46yk6JAfDcUbyYlRcE-5w&s=10') center center no-repeat;
+      background-size: cover;
+      padding: 5px 10px;
+      text-align: center;
+      color: white;
+      border-radius-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .highlight-card::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 0;
+      border-radius: 0 0 12px 12px;
+    }
+
+    .highlight-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .highlight-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* CENTRALIZA verticalmente */
+  min-width: 100px;
+  gap: 2px;
+  height: 100%; /* força ocupar a mesma altura dos times */
+}
+
+    .highlight-data,
+    .highlight-local {
+      font-size: 13px;
+      margin: 0px;
+      padding: 0px;
+      line-height: 1.1;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    }
+
+    .highlight-hora {
+      font-size: 30px;
+      font-weight: bold;
+      color: white;
+      margin: -5px;
+      padding: 0px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+    }
+
+    .highlight-times {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 10px;
+  padding: 0 5px; /* espaçamento lateral interno */
+}
+
+.highlight-time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  flex: 1;
+  max-width: 200px;
+  min-height: 50px;
+}
+
+
+    .highlight-time span {
+  font-size: 13px;
+  font-weight: bold;
+  color: white;
+  margin-top: 4px;
+  line-height: 1.2;
+  min-height: 32px; /* força altura igual para todos */
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+}
+
+    .highlight-time img {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      padding: 4px;
+    }
+
+    
+
+    .artilheiro-card {
+  display: flex;
+  align-items: center; /* CENTRALIZA imagem e texto verticalmente */
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  gap: 12px;
+}
+
+.artilheiro-card img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #eee;
+  flex-shrink: 0; /* impede de encolher */
+}
+
+.artilheiro-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* CENTRALIZA verticalmente */
+  align-items: flex-start; /* ALINHA à esquerda */
+  font-size: 14px;
+  min-width: 0;
+}
+
+.artilheiro-info .nome {
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 3px;
+}
+
+.artilheiro-info .posicao {
+  font-size: 12px;
+  color: #777;
+}
+
+.artilheiro-estatisticas {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+
+.artilheiro-estatisticas .labels,
+.artilheiro-estatisticas .valores {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.artilheiro-estatisticas .labels span {
+  font-size: 12px;
+  color: #777;
+  min-width: 50px;
+  text-align: center;
+}
+
+.artilheiro-estatisticas .valores span {
+  font-size: 15px;
+  font-weight: bold;
+  color: #222;
+  min-width: 50px;
+  text-align: center;
+}
+
+.artilheiro-conteudo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+  gap: 10px;
+}
+
+
+  </style>
+</head>
+<body>
+  <div class="logo-container">
+  <img src="https://jogueiros.com/_next/image?url=https%3A%2F%2Fd1zz32ev1utzz6.cloudfront.net%2FeyJidWNrZXQiOiJqb2d1ZWlyb3MtZmMtdXBsb2FkcyIsImtleSI6InRpbWUvNjFmNGM1ODUzNGY2YWQwMDE4MWNhODY1LzE2NDQxOTg0NzU0MjYuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo4MCwiaGVpZ2h0Ijo4MCwiZml0IjoiY292ZXIifX19&w=256&q=75" alt="Logo Canalhas FC" class="logo" />
+  <h1>Boca Sênior - Agenda</h1>
+  <div id="desempenho-bolinhas" class="bolinhas-container"></div>
+</div>
+
+  <!-- Card fixo do próximo jogo com mesmo layout dos cards -->
+  <div class="highlight-wrapper" id="proximo-jogo-wrapper" style="display: none;">
+    <div class="highlight-header">Próximo Jogo</div>
+    <div class="highlight-card">
+      <div class="highlight-times">
+        <div class="highlight-time">
+          <img id="escudoA" src="" alt="escudoA" />
+          <span id="timeA"></span>
+        </div>
+        <div class="highlight-center">
+          <div class="highlight-data" id="data-prox"></div>
+          <div class="highlight-hora" id="hora-prox"></div>
+          <div class="highlight-local" id="local-prox"></div>
+        </div>
+        <div class="highlight-time">
+          <img id="escudoB" src="" alt="escudoB" />
+          <span id="timeB"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs" style="position: sticky; top: 0; z-index: 1000;">
+    <button id="btn-ultimos" class="tab-btn active">Últimos</button>
+    <button id="btn-proximos" class="tab-btn">Próximos</button>
+    <button id="btn-artilheiros" class="tab-btn">Artilheiros</button>
+  </div>
+
+  <div id="ultimos-jogos" class="cards">
+    <p style="text-align:center;">Carregando últimos jogos...</p>
+  </div>
+  <div id="proximos-jogos" class="cards hidden">
+    <p style="text-align:center;">Carregando próximos jogos...</p>
+  </div>
+  <div id="artilheiros" class="cards hidden">
+    <p style="text-align:center;">Carregando artilheiros...</p>
+  </div>
+
+  <script>
+    const ultimosDiv = document.getElementById("ultimos-jogos");
+    const proximosDiv = document.getElementById("proximos-jogos");
+    const artilheirosDiv = document.getElementById("artilheiros");
+
+    const btnUltimos = document.getElementById("btn-ultimos");
+    const btnProximos = document.getElementById("btn-proximos");
+    const btnArtilheiros = document.getElementById("btn-artilheiros");
+
+    function criarCard(jogo, isPassado = false) {
+      return `
+        <div class="card">
+          <div class="info">${jogo.dataHora || ""}</div>
+          ${jogo.local ? `<div class="info">${jogo.local}</div>` : ""}
+          <div class="escudos">
+            <div class="escudo-time">
+              <img src="${jogo.escudoA}" alt="escudoA" />
+              <span>${jogo.timeA}</span>
+            </div>
+            <div class="vs">${isPassado ? `${jogo.golsA} x ${jogo.golsB}` : "X"}</div>
+            <div class="escudo-time">
+              <img src="${jogo.escudoB}" alt="escudoB" />
+              <span>${jogo.timeB}</span>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function carregarJogos(tipo = "ultimos") {
+      const targetDiv = tipo === "ultimos" ? ultimosDiv : proximosDiv;
+      targetDiv.innerHTML = `<p style="text-align:center;">Carregando ${tipo === "ultimos" ? 'últimos' : 'próximos'} jogos...</p>`;
+
+      fetch("https://canalhas-api.vercel.app/api/agenda")
+        .then(res => res.json())
+        .then(data => {
+          const jogos = data[tipo];
+          if (!jogos || !jogos.length) {
+            targetDiv.innerHTML = `<p style="text-align:center;">Nenhum jogo encontrado.</p>`;
+            return;
+          }
+          targetDiv.innerHTML = jogos.map(j => criarCard(j, tipo === "ultimos")).join("");
+        })
+        .catch(() => {
+          targetDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os jogos.</p>`;
+        });
+    }
+
+    function carregarProximoDestaque() {
+      fetch("https://canalhas-api.vercel.app/api/agenda")
+        .then(res => res.json())
+        .then(data => {
+          const jogo = (data.proximos || [])[0];
+          if (!jogo) return;
+
+          document.getElementById("escudoA").src = jogo.escudoA;
+          document.getElementById("escudoB").src = jogo.escudoB;
+          document.getElementById("timeA").innerText = jogo.timeA;
+          document.getElementById("timeB").innerText = jogo.timeB;
+
+          const partes = jogo.dataHora?.split("•");
+          document.getElementById("data-prox").innerText = partes[0]?.trim() || "";
+          let horaFormatada = partes[1]?.trim().replace(":", "h") || "";
+          document.getElementById("hora-prox").innerText = horaFormatada;
+          document.getElementById("local-prox").innerText = jogo.local || "";
+
+          document.getElementById("proximo-jogo-wrapper").style.display = "block";
+        })
+        .catch(() => {
+          document.getElementById("proximo-jogo-wrapper").style.display = "none";
+        });
+    }
+
+    function carregarArtilheiros() {
+  artilheirosDiv.innerHTML = `<p style="text-align:center;">Carregando artilheiros...</p>`;
+
+  fetch("https://canalhas-api.vercel.app/api/agenda")
+    .then(res => res.json())
+    .then(data => {
+      const lista = data.artilheiros;
+      if (!lista || !lista.length) {
+        artilheirosDiv.innerHTML = `<p style="text-align:center;">Nenhum artilheiro encontrado.</p>`;
+        return;
+      }
+
+      artilheirosDiv.innerHTML = lista.map(j => {
+  // Remove números extras do nome
+  const nomeLimpo = j.nome.replace(/\d+/g, '').trim();
+
+  return `
+  <div class="artilheiro-card">
+    <img src="${j.foto}" alt="${nomeLimpo}" />
+    <div class="artilheiro-conteudo">
+      <div class="artilheiro-info">
+        <span class="nome">${nomeLimpo}</span>
+        <span class="posicao">${j.posicaoCamisa}</span>
+      </div>
+      <div class="artilheiro-estatisticas">
+        <div class="labels">
+          <span>Gols:</span>
+          <span>Assist:</span>
+          <span>Jogos:</span>
+        </div>
+        <div class="valores">
+          <span>${j.gols}</span>
+          <span>${j.assistencias}</span>
+          <span>${j.jogos}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  `;
+}).join("");
+    })
+    .catch(() => {
+      artilheirosDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar os artilheiros.</p>`;
+    });
+}
+
+    // Função para esconder todas as tabs
+    function esconderTabs() {
+      ultimosDiv.classList.add("hidden");
+      proximosDiv.classList.add("hidden");
+      artilheirosDiv.classList.add("hidden");
+    }
+
+    // Tabs
+    btnUltimos.onclick = () => {
+      btnUltimos.classList.add("active");
+      btnProximos.classList.remove("active");
+      btnArtilheiros.classList.remove("active");
+
+      esconderTabs();
+      ultimosDiv.classList.remove("hidden");
+
+      carregarJogos("ultimos");
+    };
+
+    btnProximos.onclick = () => {
+      btnProximos.classList.add("active");
+      btnUltimos.classList.remove("active");
+      btnArtilheiros.classList.remove("active");
+
+      esconderTabs();
+      proximosDiv.classList.remove("hidden");
+
+      carregarJogos("proximos");
+    };
+
+    btnArtilheiros.onclick = () => {
+      btnArtilheiros.classList.add("active");
+      btnUltimos.classList.remove("active");
+      btnProximos.classList.remove("active");
+
+      esconderTabs();
+      artilheirosDiv.classList.remove("hidden");
+
+      carregarArtilheiros();
+    };
+
+    // Carrega inicialmente últimos jogos e destaque
+    carregarJogos("ultimos");
+    carregarProximoDestaque();
+    carregarDesempenho();
+    
+    function carregarDesempenho() {
+  fetch("https://canalhas-api.vercel.app/api/agenda")
+    .then(res => res.json())
+    .then(data => {
+      const desempenho = data.desempenho || [];
+      const container = document.getElementById("desempenho-bolinhas");
+      if (!container) return;
+
+      container.innerHTML = desempenho.slice(0, 5).map(letra => `
+        <div class="bolinha ${letra}">${letra}</div>
+      `).join("");
+    })
+    .catch(() => {
+      console.warn("Erro ao carregar desempenho.");
+    });
+}
+  </script>
+</body>
+</html>
